@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+  <meta charset='UTF-8' />
+  <meta name='viewport' content='width=device-width, initial-scale=1.0' />
+  <meta http-equiv='X-UA-Compatible' content='ie=edge' />
+  <title>Add Book and Review</title>
+</head>
+<body>
+  <nav><div><a href='{% url "books:index" %}'>Home</a><a href='{% url "login:logout" %}'>Logout</a><div></nav>
+  <h1>Add a New Book Title and a Review:</h1>
+  <form action='{% url "books:create" %}' method='post'>
+    {% csrf_token %}
+    Book Title:<input type='text' name='title'/><br />
+    Author:<br />
+    Choose from the list:
+    <select name='authorselect'>
+      {% for author in authors %}
+      <option value='{{author.id}}'>{{author.name}}</option>
+      {% endfor %}
+    </select>
+    Or add a new author: <input type='text' name='authornew'/><br />
+    Review: <textarea name='review' cols='30' rows='10'></textarea>
+    Rating: <input type='number' name='rating' min='1' max='5'/> stars.
+    <input type='submit' value='Add Book and Review'/>
+  </form>
+</body>
+</html>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+  <meta charset='UTF-8' />
+  <meta name='viewport' content='width=device-width, initial-scale=1.0' />
+  <meta http-equiv='X-UA-Compatible' content='ie=edge' />
+  <title>{{book.title}}</title>
+</head>
+<body>
+  <nav><div><a href='{% url "books:index" %}'>Home</a><a href='{% url "login:logout" %}'>Logout</a><div></nav>
+  <div id='book_info'>
+    <h1>{{book.title}}</h1>
+    <h2>Author: {{book.author.name}}</h2>
+  </div>
+  <main>
+    <h3>Reviews:</h3>
+    {% for review in reviews %}
+    <div class='review'>
+      <div class='reviewbody'>
+        Rating: {{review.rating}}
+        <p><a href=''>{{review.user.first_name}}</a> says: {{review.review}}</p>
+        <p>Posted on {{review.created_at}} {% if review.user.id == request.session.id %}<a href='{% url "books:delete" review.id %}'>Delete</a>{% endif %}</p>
+      </div>
+    </div>
+    {% endfor %}
+  </main>
+  <aside>
+    <form action='{% url "books:addtoexisting" book.id %}' method='post'>
+      {% csrf_token %}
+      Review: <textarea name='review' cols='30' rows='10'></textarea>
+      Rating: <input type='number' name='rating' min='1' max='5'/> stars.
+      <input type='submit' value='Add Review'/>
+    </form>
+  </aside>
+</body>
+</html>

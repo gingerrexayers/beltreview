@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+  <meta charset='UTF-8' />
+  <meta name='viewport' content='width=device-width, initial-scale=1.0' />
+  <meta http-equiv='X-UA-Compatible' content='ie=edge' />
+  <title>Books Home</title>
+</head>
+<body>
+  <nav><h1>Welcome, {{user.first_name}}</h1><div><a href='{% url "books:add" %}'>Add Book and Review</a><a href='{% url "login:logout" %}'>Logout</a></div></nav>
+  <main>
+    <h3>Recent Book Reviews:</h3>
+    {% for review in reviews %}
+    <div class='review'>
+      <h4><a href='{% url "books:show" review.book.id %}'>{{review.book.title}}</a></h4>
+      <div class='reviewbody'>
+        Rating: {{review.rating}}
+        <p><a href='{% url "login:user" review.user.id %}'>{{review.user.first_name}}</a> says: {{review.review}}</p>
+        <p>Posted on {{review.created_at}}</p>
+      </div>
+    </div>
+    {% endfor %}
+  </main>
+  <aside>
+    <h3>Other Books with Reviews:</h3>
+    <div id='books'>
+      <ul>
+        {% for book in books %}
+        <li><a href='{% url "books:show" book.id %}'>{{book.title}}</a></li>
+        {% endfor %}
+      </ul>
+    </div>
+  </aside>
+</body>
+</html>
